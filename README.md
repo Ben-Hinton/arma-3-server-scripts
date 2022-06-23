@@ -2,4 +2,4 @@
 A script I made to simplify arma 3 server setup
 
 ## Usage:
-python3 script.py (link to arma mod profile)
+python3 script.py (link to arma mod profile) (user to log in with)

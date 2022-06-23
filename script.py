@@ -2,9 +2,6 @@ import sys
 import os
 import shutil
 
-#Define all these before running the program
-executable_name = "to set"
-
 #functions that will be used later in the program
 def delete_mods():
     stuff = os.listdir()
@@ -24,10 +21,10 @@ def remove_mods():
         if(stuff[x][0] == '@'):
             os.system("rm -rf /home/ben/Steam/steamapps/common/Arma\\ 3\\ Server/" + stuff[x])
 
-def run_steamcmd(links): 
+def run_steamcmd(links, user): 
     for x in range(0, len(links)):
         for i in range(0,5):
-            os.system("steamcmd +force_install_dir /home/ben/Steam +login anonymous +workshop_download_item 107410 " + links[x] + " validate +exit")
+            os.system("steamcmd +force_install_dir /home/ben/Steam +login " + user + " +workshop_download_item 107410 " + links[x] + " validate +exit")
 
 def get_mods_from_file(file_name):
     f = open(file_name, mode='r')
@@ -80,18 +77,23 @@ def rename_to_lower():
     os.system("find /home/ben/Steam/steamapps/workshop/content/107410/ -depth -exec rename 's/(.*)\/([^\/]*)/$1\/\L$2/' {} \;")
 
 #actual program starts here
-if len(sys.argv) != 2:
+if len(sys.argv) < 2:
     quit()
+
+user = "anonymous"
+
+if len(sys.argv) == 3:
+    user = sys.argv[2]
 
 download_mod_file(sys.argv[1])
 
 update_server()
 
-delete_mods()
+#delete_mods()
 
 links = get_mods_from_file("modfile.html")
 
-run_steamcmd(links)
+run_steamcmd(links, user)
 
 rename_to_lower()
 
