@@ -26,7 +26,7 @@ def remove_mods():
 #downloads / updates all of the mods passed to it
 def run_steamcmd(links, user): 
     for x in range(0, len(links)):
-        for i in range(0,5):
+        for i in range(0,3):
             os.system("steamcmd +force_install_dir /home/ben/Steam +login " + user + " +workshop_download_item 107410 " + links[x] + " validate +exit")
 
 #reads the arma3 mods file and extracts the workshop links from it
@@ -53,6 +53,10 @@ def get_mods_from_file(file_name):
 def download_mod_file(link):
     os.system("wget " + link + " -O modfile.html")
 
+#downloads the mod file passed to it
+def download_mission_file(link):
+    os.system("wget " + link + " -O /home/ben/Steam/steamapps/common/Arma\\ 3\\ Server/mpmissions/mission.pbo")
+
 #generates a launch script to load the server with the required mods
 def generate_config_file(mods):
     text = "./arma3server_x64 -name=SPAC -config=server.cfg -mod="
@@ -75,18 +79,20 @@ def rename_to_lower():
     os.system("find /home/ben/Steam/steamapps/workshop/content/107410/ -depth -exec rename 's/(.*)\/([^\/]*)/$1\/\L$2/' {} \;")
 
 #if a mod file has not been provided then quit
-if len(sys.argv) < 2:
+if len(sys.argv) < 3:
     quit()
 
 user = "anonymous"
 
 #if there are 3 arguments then a user has been provided, set the user to that argument
-if len(sys.argv) == 3:
-    user = sys.argv[2]
+if len(sys.argv) == 4:
+    user = sys.argv[3]
 
 update_server()
 
 download_mod_file(sys.argv[1])
+
+download_mission_file(sys.argv[2])
 
 #delete_mods()
 
