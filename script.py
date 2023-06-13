@@ -2,6 +2,8 @@ import sys
 import os
 import shutil
 
+steamDirectory = "/home/ben/.steam/"
+
 #deletes all of the mods which have been downloaded previously
 def delete_mods():
     stuff = os.listdir()
@@ -17,11 +19,11 @@ def update_server():
 
 #removes all of the symlinks for mods so they dont load
 def remove_mods():
-    stuff = os.listdir("/home/ben/Steam/steamapps/common/Arma 3 Server")
+    stuff = os.listdir("/home/ben/.steam/steamapps/common/Arma 3 Server")
 
     for x in range (0, len(stuff)):
         if(stuff[x][0] == '@'):
-            os.system("rm -rf /home/ben/Steam/steamapps/common/Arma\\ 3\\ Server/" + stuff[x])
+            os.system("rm -rf /home/ben/.steam/steamapps/common/Arma\\ 3\\ Server/" + stuff[x])
 
 #downloads / updates all of the mods passed to it
 def run_steamcmd(links, user): 
@@ -61,18 +63,18 @@ def generate_config_file(mods):
     for x in range(1,len(mods)):
         text += "\\;@" + mods[x]
     
-    f = open("/home/ben/Steam/steamapps/common/Arma 3 Server/start.sh", mode='w')
+    f = open("/home/ben/.steam/steamapps/common/Arma 3 Server/start.sh", mode='w')
     f.write(text)
     f.close()
 
 #creates a simlink between the mods folder and the arma server folder
 def link_mods(links):
     for x in range(0, len(links)):
-        os.system("ln -s /home/ben/Steam/steamapps/workshop/content/107410/" + links[x] + " /home/ben/Steam/steamapps/common/Arma\\ 3\\ Server/@" + links[x])
+        os.system("ln -s /home/ben/.steam/steamapps/workshop/content/107410/" + links[x] + " /home/ben/.steam/steamapps/common/Arma\\ 3\\ Server/@" + links[x])
 
 #reanmes all the mod folders to lower case so the arma server is happy
 def rename_to_lower():
-    os.system("find /home/ben/Steam/steamapps/workshop/content/107410/ -depth -exec rename 's/(.*)\/([^\/]*)/$1\/\L$2/' {} \;")
+    os.system("find /home/ben/.steam/steamapps/workshop/content/107410/ -depth -exec rename 's/(.*)\/([^\/]*)/$1\/\L$2/' {} \;")
 
 #if a mod file has not been provided then quit
 if len(sys.argv) < 2:
