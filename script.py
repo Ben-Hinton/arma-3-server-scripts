@@ -17,7 +17,7 @@ def delete_mods():
 
 #updates the arma3 server install
 def update_server():
-    os.system("steamcmd +force_install_dir " + steamDirectory + "steamapps/common/Arma 3 Server\"" + " +login " + user + " +app_update 233780 validate +exit")
+    os.system("steamcmd +force_install_dir \"" + steamDirectory + "steamapps/common/Arma 3 Server\"" + " +login " + user + " +app_update 233780 validate +exit")
 
 #removes all of the symlinks for mods so they dont load
 def remove_mods():
