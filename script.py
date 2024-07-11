@@ -17,7 +17,7 @@ def delete_mods():
 
 #updates the arma3 server install
 def update_server():
-    os.system("steamcmd +force_install_dir " + steamDirectory + "\"steamapps/common/Arma 3 Server\"" + " +login " + user + " +app_update 233780 validate +exit")
+    os.system("steamcmd +force_install_dir " + steamDirectory + "steamapps/common/Arma 3 Server\"" + " +login " + user + " +app_update 233780 validate +exit")
 
 #removes all of the symlinks for mods so they dont load
 def remove_mods():
@@ -28,10 +28,15 @@ def remove_mods():
             os.system("rm -rf " + steamDirectory + "steamapps/common/Arma\\ 3\\ Server/" + stuff[x])
 
 #downloads / updates all of the mods passed to it
-def run_steamcmd(links, user): 
-    for x in range(0, len(links)):
-        for i in range(0,numberOfTimesToAttemptInstall):
-            os.system("steamcmd +force_install_dir " + steamDirectory + " +login " + user + " +workshop_download_item 107410 " + links[x] + " validate +exit")
+def run_steamcmd(links, user):
+    for i in range(0,numberOfTimesToAttemptInstall):
+        mod_install_commands = ""
+
+        for x in range(0, len(links)):
+            mod_install_commands += " +workshop_download_item 107410 " + links[x] + + " validate"
+
+        print("====== Running it again ======\n\n")
+        os.system("steamcmd +force_install_dir " + steamDirectory + " +login " + user + mod_install_commands + " +exit")
 
 #reads the arma3 mods file and extracts the workshop links from it
 def get_mods_from_file(file_name):
@@ -55,7 +60,7 @@ def get_mods_from_file(file_name):
 
 #downloads the mod file passed to it
 def download_mod_file(link):
-    os.system("wget " + link + " -O modfile.html")
+    os.system("wget \"" + link + "\" -O modfile.html")
 
 #generates a launch script to load the server with the required mods
 def generate_config_file(mods):
