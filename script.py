@@ -33,7 +33,7 @@ def run_steamcmd(links, user):
         mod_install_commands = ""
 
         for x in range(0, len(links)):
-            mod_install_commands += " +workshop_download_item 107410 " + links[x] + + " validate"
+            mod_install_commands += " +workshop_download_item 107410 " + links[x] + " validate"
 
         print("====== Running it again ======\n\n")
         os.system("steamcmd +force_install_dir " + steamDirectory + " +login " + user + mod_install_commands + " +exit")
