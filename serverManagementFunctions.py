@@ -66,7 +66,10 @@ async def stopServer(channel):
 
         await channel.send(embed=embed);
 
-        #Stop the server subprocess
+        #Stop the server subprocess and any sub processes it might have spawned
+        for subprocess in psutil.Process(serverProcess.pid).children(recursive=True):
+            subprocess.kill()
+
         serverProcess.kill()
 
         serverProcess = None
