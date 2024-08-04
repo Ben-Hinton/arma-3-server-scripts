@@ -67,7 +67,7 @@ async def stopServer(channel):
         await channel.send(embed=embed);
 
         #Stop the server subprocess
-        serverProcess.terminate()
+        serverProcess.kill()
 
         serverProcess = None
     
