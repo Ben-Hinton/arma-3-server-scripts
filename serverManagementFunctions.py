@@ -90,7 +90,7 @@ async def updateServer(channel, message):
             if(len(message.attachments) == 1):
                 #Check that the attachment is valid
                 if(discordBotUtilityMethods.checkDiscordAttachment(message, programParameters.modPresetFileExtension)):
-                    serverUpdateThread = threading.Thread(serverUpdaterFunction(message.attachments[0].url))
+                    serverUpdateThread = threading.Thread(serverUpdaterFunction, args=(message.attachments[0].url))
                     serverUpdateThread.start
 
                     embed = discord.embeds.Embed(colour=programParameters.successColour, title="Starting server update")
