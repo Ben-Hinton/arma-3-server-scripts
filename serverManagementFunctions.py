@@ -91,7 +91,7 @@ async def updateServer(channel, message):
                 #Check that the attachment is valid
                 if(discordBotUtilityMethods.checkDiscordAttachment(message, programParameters.modPresetFileExtension)):
                     serverUpdateThread = threading.Thread(serverUpdaterFunction, args=(message.attachments[0].url))
-                    serverUpdateThread.start
+                    serverUpdateThread.start()
 
                     embed = discord.embeds.Embed(colour=programParameters.successColour, title="Starting server update")
                     embed.add_field(name="", value="Server updates can take a long time, please use the **__update-server__** command to check the progress of the update.")
@@ -113,8 +113,6 @@ async def updateServer(channel, message):
           
 def serverUpdaterFunction(modPresetFileLink):
     global updateStatus
-
-    print(f"Mod preset file link: {modPresetFileLink}")
      
     updateStatus = UpdateStatusEnum.UPDATING_BASE_GAME
     modInstallFunctions.update_server()
