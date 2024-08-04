@@ -8,7 +8,7 @@ lastUpdateTime = 0
 tokenFilePath = "bot-token.token"
 
 #The location of the script which starts the server
-startScriptLocation = "/path/to/server/start/script"
+startScriptLocation = "/path/to/server/start/script.sh"
 
 #The prefix of the bot
 botPrefix = '!'
@@ -34,11 +34,15 @@ startOfDiscordAttachementURL = "https://cdn.discordapp.com/attachments/"
 modPresetFileExtension = ".html"
 missionFileExtension = ".pbo"
 
-#The location of the mpmissions folder and the server config
+#The location of the mpmissions folder, the server config file and the folder containing the servers's install
 mpmissionsFolderPath = "/path/to/mpmissions/"
 serverConfigFileLocation = "/path/to/server/config/file.cfg"
+serverInstallLocation = "/path/to/server/install/"
 #The line number (starting from 0) which the current mission is set in the config file
 missionFileConfigLineNumber = 0
+
+#The port you would like to use for the Arma server
+serverPort = 0
 
 #The value of a gibibyte
 gibibyte = 1074000000

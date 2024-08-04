@@ -61,7 +61,12 @@ def download_mod_file(link):
 
 #generates a launch script to load the server with the required mods
 def generate_config_file(mods):
-    text = "./arma3server_x64 -config=server.cfg -port=24001 -mod="
+    #Add a shebang to the start of the script to ensure it works wherever it is executed from
+    text = "#!/bin/bash\n"
+    #CD into the game directory
+    text += f"cd \"{programParameters.serverInstallLocation}\"\n"
+    #Add the command which executes the game server and sets the game parameters
+    text += f"./arma3server_x64 \"-config={programParameters.serverConfigFileLocation}\" -port={str(programParameters.serverPort)} -mod="
     
     text += "@" + mods[0]
     for x in range(1,len(mods)):
