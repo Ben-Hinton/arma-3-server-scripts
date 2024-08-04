@@ -154,7 +154,7 @@ async def setMissionFile(channel, message):
                     missionFileURL = message.attachments[0].url
                     
                     #Download the mission file and place it in the mpmissions folder
-                    os.system(f"wget \" {missionFileURL} \" -O {programParameters.mpmissionsFolderPath}{missionFileName}")
+                    os.system(f"wget \"{missionFileURL}\" -O \"{programParameters.mpmissionsFolderPath}{missionFileName}\"")
 
                     #Generate a new config file line to load the mission we just downloaded and write it to the server.cfg file
                     newConfigLine = f'''      template ="{missionFileName[0:len(missionFileName)-len(programParameters.missionFileExtension)]}";'''
