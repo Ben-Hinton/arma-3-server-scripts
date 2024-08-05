@@ -1,8 +1,8 @@
 #Import the libraries we will need
 import discord.colour
 
-#A variable holding the last time the server was updated, using the unix timestamp format (milliseconds since 1970)
-lastUpdateTime = 0
+#A variable holding the last time the server was updated, using the unix timestamp format (milliseconds since 1970), -1 indicates that the server has not been updated before
+lastUpdateTime = -1
 
 #The file path to the bot's token file
 tokenFilePath = "bot-token.token"
