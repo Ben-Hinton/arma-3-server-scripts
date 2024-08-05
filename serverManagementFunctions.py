@@ -41,7 +41,7 @@ async def startServer(channel):
         await discordBotUtilityMethods.sendErrorMessage(channel, "The server is already running!", "Please stop the server before using this command.")
 
     #Check to see if the server is being updated
-    if(updateStatus != UpdateStatusEnum.UPDATED):
+    elif(updateStatus != UpdateStatusEnum.UPDATED):
         await discordBotUtilityMethods.sendErrorMessage(channel, "The server is currently being updated!", "Please wait for the update to complete before starting the server.")
 
 
