@@ -1,10 +1,7 @@
-import sys
-import os
-import shutil
-
-steamDirectory = "/home/ben/Steam/"
-user = "anonymous"
-numberOfTimesToAttemptInstall = 3
+#Import the libraries we will need
+import os, shutil
+#Import code which has been split into other files 
+import programParameters
 
 #deletes all of the mods which have been downloaded previously
 def delete_mods():
@@ -17,26 +14,26 @@ def delete_mods():
 
 #updates the arma3 server install
 def update_server():
-    os.system("steamcmd +force_install_dir \"" + steamDirectory + "steamapps/common/Arma 3 Server\"" + " +login " + user + " +app_update 233780 validate +exit")
+    os.system("steamcmd +force_install_dir \"" + programParameters.steamDirectory + "steamapps/common/Arma 3 Server\"" + " +login " + programParameters.user + " +app_update 233780 validate +exit")
 
 #removes all of the symlinks for mods so they dont load
 def remove_mods():
-    stuff = os.listdir(steamDirectory + "steamapps/common/Arma 3 Server")
+    stuff = os.listdir(programParameters.steamDirectory + "steamapps/common/Arma 3 Server")
 
     for x in range (0, len(stuff)):
         if(stuff[x][0] == '@'):
-            os.system("rm -rf " + steamDirectory + "steamapps/common/Arma\\ 3\\ Server/" + stuff[x])
+            os.system("rm -rf " + programParameters.steamDirectory + "steamapps/common/Arma\\ 3\\ Server/" + stuff[x])
 
 #downloads / updates all of the mods passed to it
 def run_steamcmd(links, user):
-    for i in range(0,numberOfTimesToAttemptInstall):
+    for i in range(0, programParameters.numberOfTimesToAttemptInstall):
         mod_install_commands = ""
 
         for x in range(0, len(links)):
             mod_install_commands += " +workshop_download_item 107410 " + links[x] + " validate"
 
         print("====== Running it again ======\n\n")
-        os.system("steamcmd +force_install_dir " + steamDirectory + " +login " + user + mod_install_commands + " +exit")
+        os.system("steamcmd +force_install_dir " + programParameters.steamDirectory + " +login " + user + mod_install_commands + " +exit")
 
 #reads the arma3 mods file and extracts the workshop links from it
 def get_mods_from_file(file_name):
@@ -64,45 +61,26 @@ def download_mod_file(link):
 
 #generates a launch script to load the server with the required mods
 def generate_config_file(mods):
-    text = "./arma3server_x64 -config=server.cfg -port=24001 -mod="
+    #Add a shebang to the start of the script to ensure it works wherever it is executed from
+    text = "#!/bin/bash\n"
+    #CD into the game directory
+    text += f"cd \"{programParameters.serverInstallLocation}\"\n"
+    #Add the command which executes the game server and sets the game parameters
+    text += f"./arma3server_x64 \"-config={programParameters.serverConfigFileLocation}\" -port={str(programParameters.serverPort)} -mod="
     
     text += "@" + mods[0]
     for x in range(1,len(mods)):
         text += "\\;@" + mods[x]
     
-    f = open(steamDirectory + "steamapps/common/Arma 3 Server/start.sh", mode='w')
+    f = open(programParameters.steamDirectory + "steamapps/common/Arma 3 Server/start.sh", mode='w')
     f.write(text)
     f.close()
 
 #creates a simlink between the mods folder and the arma server folder
 def link_mods(links):
     for x in range(0, len(links)):
-        os.system("ln -s " + steamDirectory + "steamapps/workshop/content/107410/" + links[x] + " " + steamDirectory + "steamapps/common/Arma\\ 3\\ Server/@" + links[x])
+        os.system("ln -s " + programParameters.steamDirectory + "steamapps/workshop/content/107410/" + links[x] + " " + programParameters.steamDirectory + "steamapps/common/Arma\\ 3\\ Server/@" + links[x])
 
 #reanmes all the mod folders to lower case so the arma server is happy
 def rename_to_lower():
-    os.system("find " + steamDirectory + "steamapps/workshop/content/107410/ -depth -exec rename 's/(.*)\/([^\/]*)/$1\/\L$2/' {} \;")
-
-#if a mod file has not been provided then quit
-if len(sys.argv) < 2:
-    quit()
-
-#if there are 3 arguments then a user has been provided, set the user to that argument
-if len(sys.argv) == 3:
-    user = sys.argv[2]
-
-update_server()
-
-download_mod_file(sys.argv[1])
-
-links = get_mods_from_file("modfile.html")
-
-run_steamcmd(links, user)
-
-rename_to_lower()
-
-remove_mods()
-
-link_mods(links)
-
-generate_config_file(links)
+    os.system("find " + programParameters.steamDirectory + "steamapps/workshop/content/107410/ -depth -exec rename 's/(.*)\/([^\/]*)/$1\/\L$2/' {} \;")
