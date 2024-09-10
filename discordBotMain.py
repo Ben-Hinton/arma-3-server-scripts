@@ -11,12 +11,12 @@ client = discord.Client(intents=intents)
 
 @client.event
 async def on_ready():
-    print("Sucessful login as: " + client.user.display_name + "#" + client.user.discriminator + "\n")
+    print("Successful login as: " + client.user.display_name + "#" + client.user.discriminator + "\n")
 
 @client.event
 async def on_message(message):
-    #If the message is from the bot itself then ignore it
-    if message.author == client.user or message.author.id not in programParameters.admins:
+    #If the message is from the bot itself or the user does not have the required admin role then ignore it
+    if message.author == client.user or message.guild.get_role(programParameters.adminRoleID) not in message.author.roles :
         return
 
     #If the message starts with the bot's prefix then run the code below
