@@ -20,7 +20,7 @@ def writeLastTimeUpdated(timeLastUpdated):
     changeLineInFile("programParameters.py", 3, newLineToWrite)
 
 def changeLineInFile(filePath, lineNumber, newLineText):
-    #Open the paramerters file for reading and writing
+    #Open the parameters file for reading and writing
     file = open(filePath, "r+")
 
     #Read the file, split it into individual lines and then close it

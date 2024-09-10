@@ -21,8 +21,8 @@ successColour = discord.colour.Colour.green()
 errorColour = discord.colour.Colour.red()
 neutralColour = discord.colour.Colour.pink()
 
-#List of admins
-admins = []
+#The ID of the admin role which allows a user to use the bot
+adminRoleID = 0
 
 #Parameters used for the mod install script
 steamDirectory = "/Steam/"
